@@ -5,9 +5,14 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 5000;
+const HOST = '127.0.0.1';
 
 // Middleware
 app.use(cors()); // This should allow all CORS requests
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Only allow requests from this origin
+// }));
+
 app.use(express.json()); // Parse JSON requests
 
 // Configure Winston logger
@@ -22,7 +27,7 @@ const logger = winston.createLogger({
 
 // MySQL Connection
 const db = mysql.createConnection({
-    host: '127.0.0.1',
+    host: HOST,
     user: 'rpidbuser',
     password: 'a',
     database: 'weather_data',
@@ -37,7 +42,7 @@ db.connect((err) => {
     console.log('Connected to the database.');
 });
 
-// // API endpoint to get data
+// API endpoint to get data
 app.get('/api/data', (req, res) => {
     db.query('SELECT * FROM readings ORDER BY created_at DESC LIMIT 20000', (err, results) => {
         if (err) {
@@ -55,5 +60,5 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://127.0.0.1:${PORT}`);
+    console.log(`Server is running on http://${HOST}:${PORT}`);
 });
