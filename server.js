@@ -9,10 +9,6 @@ const HOST = '127.0.0.1';
 
 // Middleware
 app.use(cors()); // This should allow all CORS requests
-// app.use(cors({
-//     origin: 'http://localhost:3000', // Only allow requests from this origin
-// }));
-
 app.use(express.json()); // Parse JSON requests
 
 // Configure Winston logger
