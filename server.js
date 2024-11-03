@@ -40,7 +40,7 @@ db.connect((err) => {
 
 // API endpoint to get data
 app.get('/api/data', (req, res) => {
-    db.query('SELECT * FROM readings ORDER BY created_at DESC LIMIT 50', (err, results) => {
+    db.query('SELECT * FROM readings ORDER BY created_at DESC LIMIT 10000', (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
