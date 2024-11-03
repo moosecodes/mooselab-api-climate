@@ -1,11 +1,11 @@
-const express = require('express');
-const winston = require('winston');
-const mysql = require('mysql2');
-const cors = require('cors');
+import express from 'express';
+import winston from 'winston';
+import mysql from 'mysql2';
+import cors from 'cors';
 
 const app = express();
 const PORT = 5000;
-const HOST = '127.0.0.1';
+const HOST = '10.0.0.186';
 
 // Middleware
 app.use(cors()); // This should allow all CORS requests
@@ -40,12 +40,16 @@ db.connect((err) => {
 
 // API endpoint to get data
 app.get('/api/data', (req, res) => {
-    db.query('SELECT * FROM readings ORDER BY created_at DESC LIMIT 20000', (err, results) => {
+    db.query('SELECT * FROM readings ORDER BY created_at DESC LIMIT 50', (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
         res.json(results);
     });
+});
+
+app.get('/api/test', (req, res) => {
+    res.send('Test route working');
 });
 
 // Error handling middleware
