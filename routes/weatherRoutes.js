@@ -26,13 +26,13 @@ const fetchWeatherData = async () => {
   console.log(new Date().toString());
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.REACT_APP_OW_LAT}&lon=${process.env.REACT_APP_OW_LONG}&appid=${process.env.REACT_APP_OW_API_KEY}&units=${process.env.REACT_APP_OW_UNITS}`
+      `${process.env.OPENWEATHER_BASE_URL}?appid=${process.env.OPENWEATHER_API_KEY}&lat=${process.env.OPENWEATHER_LAT}&lon=${process.env.OPENWEATHER_LONG}&units=${process.env.OPENWEATHER_UNITS}`
     );
 
     const weatherData = response.data;
     const { temp, feels_like, temp_min, temp_max, humidity } = weatherData.main;
     const { main, description } = weatherData.weather[0];
-    const { name, dt } = weatherData;
+    const { name } = weatherData;
 
     const insertQuery = `
       INSERT INTO weather_data.local_readings 
@@ -53,6 +53,7 @@ const fetchWeatherData = async () => {
   }
 };
 
+fetchWeatherData();
 setInterval(fetchWeatherData, process.env.WEATHER_FETCH_INTERVAL);
 
 export default router;
