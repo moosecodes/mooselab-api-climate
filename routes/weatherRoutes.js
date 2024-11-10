@@ -5,7 +5,7 @@ import db from '../services/utils.js';
 const router = express.Router();
 
 router.get('/current', (req, res) => {
-  db.query('SELECT * FROM weather_data.local_readings ORDER BY created_at DESC LIMIT 1', (err, results) => {
+  db.query('SELECT * FROM expressdb.weather_readings ORDER BY created_at DESC LIMIT 1', (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -14,7 +14,7 @@ router.get('/current', (req, res) => {
 });
 
 router.get('/recent', (req, res) => {
-  db.query('SELECT * FROM weather_data.local_readings ORDER BY created_at DESC LIMIT 10000', (err, results) => {
+  db.query('SELECT * FROM expressdb.weather_readings ORDER BY created_at DESC LIMIT 10000', (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -35,7 +35,7 @@ const fetchWeatherData = async () => {
     const { name } = weatherData;
 
     const insertQuery = `
-      INSERT INTO weather_data.local_readings 
+      INSERT INTO expressdb.weather_readings 
       (farenheit, feels_like, temp_min, temp_max, humidity, name, conditions, description) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
